@@ -3,257 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WATSON-XD</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <title>Watson Fourpence Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-  <!-- Matrix Background -->
-  <canvas id="matrix"></canvas>
-  <div id="particles-js"></div>
+  <style>
+    /* Global Styles */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Orbitron', sans-serif; }
+    body { background: linear-gradient(135deg,#000,#1f1c2c); color:white; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; }
 
-  <!-- Hero Section -->
-  <header>
-    <div class="profile-pic">
-      <img src="assets/profile.png" alt="Watson-XD">
-    </div>
-    <h1 class="glow-text">WATSON-XD</h1>
-    <p class="typing">《WATSON FOURPENCE 2025》</p>
-    <div class="clock" id="clock"></div>
-  </header>
+    /* Hero Section */
+    header { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; position:relative; text-align:center; }
+    header .glow-text { font-size:4rem; color:#0ff; text-shadow:0 0 10px #0ff,0 0 30px #0ff,0 0 50px #0ff; animation:flicker 3s infinite alternate; }
+    @keyframes flicker {0%,100%{opacity:1; transform:scale(1);}50%{opacity:0.7; transform:scale(1.05);}}
+    header .typing { margin-top:20px; font-size:1.2rem; color:#0ff; border-right:2px solid #0ff; white-space:nowrap; overflow:hidden; width:0; animation:typing 6s steps(30,end) infinite alternate, blink .7s step-end infinite;}
+    @keyframes typing { from{width:0;} to{width:25ch;} }
+    @keyframes blink { 50%{border-color:transparent;} }
 
-  <!-- News Ticker -->
-  <div class="news-ticker">
-    <span>🔥 Latest Update: New Bot Version Released! | 🚀 Portfolio Updated | 📢 Join My WhatsApp Channel</span>
-  </div>
+    /* Floating Orbs & Stars */
+    .stars,.orbs { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; z-index:-1; }
+    .star { position:absolute; width:2px; height:2px; background:white; border-radius:50%; animation:twinkle 5s infinite ease-in-out; }
+    @keyframes twinkle {0%,100%{opacity:0.2;}50%{opacity:1;}}
+    .orb { position:absolute; width:40px; height:40px; background:rgba(0,255,255,0.2); border-radius:50%; filter:blur(20px); animation:floatOrb 10s infinite alternate; }
+    @keyframes floatOrb { from {transform:translateY(0);} to {transform:translateY(-100px);} }
 
-  <!-- Project Cards -->
-  <section class="projects">
-    <div class="card">
-      <i class="fa-brands fa-github"></i>
-      <h3>GitHub</h3>
-      <p>Check out my projects & repos</p>
-      <a href="https://github.com/watson-xd3/WATSON-XD-BOT" target="_blank">Visit</a>
-    </div>
-    <div class="card">
-      <i class="fa-brands fa-youtube"></i>
-      <h3>YouTube</h3>
-      <p>Watch tutorials & tech videos</p>
-      <a href="https://youtube.com/@watson-xd3" target="_blank">Subscribe</a>
-    </div>
-    <div class="card">
-      <i class="fa-brands fa-whatsapp"></i>
-      <h3>WhatsApp</h3>
-      <p>Join my community channel</p>
-      <a href="https://whatsapp.com/channel/0029Vb5m3D9A2pL6kvlwSf2S" target="_blank">Join</a>
-    </div>
-  </section>
+    /* Buttons */
+    .buttons { margin-top:40px; display:flex; flex-direction:column; gap:20px; }
+    .button { padding:15px 30px; font-size:1.1rem; background:#0ff; color:#000; border:none; border-radius:10px; box-shadow:0 0 10px #0ff; display:flex; align-items:center; gap:10px; justify-content:center; position:relative; overflow:hidden; transition:0.2s ease; }
+    .button::after { content:''; position:absolute; top:50%; left:50%; width:200%; height:200%; background:rgba(255,255,255,0.2); transform:translate(-50%,-50%) scale(0); border-radius:50%; transition:transform 0.4s ease; }
+    .button:active::after { transform:translate(-50%,-50%) scale(1); }
+    .button:hover { box-shadow:0 0 20px #00f5ff,0 0 30px #00f5ff; transform:scale(1.05); }
 
-  <!-- Light/Dark Toggle -->
-  <button id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+    /* Sections */
+    section { padding:80px 20px; max-width:1200px; margin:0 auto; }
+    h2 { font-size:2.5rem; color:#0ff; text-shadow:0 0 5px #0ff; margin-bottom:20px; text-align:center; }
+    p { text-align:center; font-size:1.1rem; margin-bottom:20px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    .card { background:rgba(0,255,255,0.1); padding:20px; border-radius:15px; box-shadow:0 0 10px #0ff; transition:0.3s; text-align:center; }
+    .card:hover { transform:scale(1.05); box-shadow:0 0 20px #00f5ff; }
 
-  <!-- Footer -->
-  <footer>© 2025 WATSON-XD | Powered by Cool Tech ⚡</footer>
+    /* Skill Bars */
+    .skill { margin-bottom:15px; }
+    .skill-name { display:flex; justify-content:space-between; margin-bottom:5px; }
+    .skill-bar { width:100%; height:15px; background:#222; border-radius:10px; overflow:hidden; }
+    .skill-fill { height:100%; width:0; background:#0ff; border-radius:10px; transition:1s; }
 
-  <script src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-</body>
-</html>
-    .buttons {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .button {
-      padding: 15px 30px;
-      font-size: 1.1rem;
-      background: #0ff;
-      color: #000;
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 0 10px #0ff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      transition: 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .button::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 200%;
-      height: 200%;
-      background: rgba(255, 255, 255, 0.2);
-      transform: translate(-50%, -50%) scale(0);
-      border-radius: 50%;
-      transition: transform 0.4s ease;
-    }
-    .button:active::after {
-      transform: translate(-50%, -50%) scale(1);
-    }
-    .button:hover {
-      box-shadow: 0 0 20px #00f5ff, 0 0 30px #00f5ff;
-      transform: scale(1.05);
-    }
-
-    audio { display: none; }
-
-    /* Typing effect */
-    .typing {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      color: #0ff;
-      border-right: 2px solid #0ff;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 0;
-      animation: typing 6s steps(30, end) infinite alternate, blink .7s step-end infinite;
-    }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 20ch; }
-    }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
+    /* Contact Form */
+    .contact-form { display:flex; flex-direction:column; gap:15px; max-width:600px; margin:0 auto; }
+    .contact-form input, .contact-form textarea { padding:15px; border-radius:10px; border:none; background:#111; color:white; resize:none; }
+    .contact-form button { padding:15px; border:none; border-radius:10px; background:#0ff; color:#000; cursor:pointer; transition:0.2s; }
+    .contact-form button:hover { transform:scale(1.05); box-shadow:0 0 20px #00f5ff; }
 
     /* Footer */
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.9rem;
-      color: #aaa;
-    }
+    footer { text-align:center; padding:20px 0; font-size:0.9rem; color:#aaa; }
 
-    /* Digital clock */
-    .clock {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-    }
+    /* Back to Top */
+    #topBtn { position:fixed; bottom:30px; right:30px; background:#0ff; color:#000; border:none; border-radius:50%; width:50px; height:50px; font-size:1.5rem; cursor:pointer; display:none; transition:0.3s; }
+    #topBtn:hover { transform:scale(1.1); box-shadow:0 0 20px #00f5ff; }
 
-    /* Cursor glow */
-    .cursor-dot {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: #0ff;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0.7;
-      filter: blur(3px);
-      animation: fadeOut 1s forwards;
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; transform: scale(2); }
-    }
-
-    /* Matrix rain background */
-    canvas#matrix {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -2;
-      background: black;
-    }
+    /* Responsive */
+    @media(max-width:768px){ .cards { grid-template-columns:1fr; } header .glow-text { font-size:3rem; } }
   </style>
 </head>
 <body>
-  <!-- Matrix Rain -->
-  <canvas id="matrix"></canvas>
 
-  <!-- Glow text -->
-  <div class="glow-text">WATSON-XD</div>
+  <!-- Hero Section -->
+  <header>
+    <div class="glow-text">Watson Fourpence</div>
+    <div class="typing">Hardworking boy | 21 | Harare, Zimbabwe 🇿🇼</div>
+    <div class="buttons">
+      <a href="https://youtube.com/@watson-xd3" class="button"><i class="fa-brands fa-youtube"></i> YouTube</a>
+      <a href="https://wa.me/263789622747" class="button"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      <a href="mailto:fourpencewatson7@gmail.com" class="button"><i class="fa-solid fa-envelope"></i> Email Me</a>
+    </div>
+  </header>
 
-  <!-- Typing effect -->
-  <div class="typing">《WATSON FOURPENCE 2025》</div>
-  
-  <!-- Digital Clock -->
-  <div class="clock" id="clock"></div>
-
-  <!-- Buttons -->
-  <div class="buttons">
-    <a href="https://youtube.com/@watson-xd3" class="button" onclick="playSound()">
-      <i class="fa-brands fa-youtube"></i> YouTube Channel
-    </a>
-    <a href="https://whatsapp.com/channel/0029Vb5m3D9A2pL6kvlwSf2S" class="button" onclick="playSound()">
-      <i class="fa-brands fa-whatsapp"></i> WhatsApp Channel
-    </a>
-    <a href="https://wa.me/263781330745" class="button" onclick="playSound()">
-      <i class="fa-solid fa-message"></i> Message Me
-    </a>
+  <!-- Floating Stars & Orbs -->
+  <div class="stars"></div>
+  <div class="orbs">
+    <div class="orb" style="top:20%; left:10%;"></div>
+    <div class="orb" style="top:70%; left:80%; animation-delay:3s;"></div>
   </div>
 
-  <!-- Sound -->
-  <audio id="tapSound">
-    <source src="https://www.myinstants.com/media/sounds/button-press.mp3" type="audio/mpeg">
-  </audio>
+  <!-- About Me -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I'm Watson Fourpence, 21 years old from Harare, Zimbabwe. Hardworking and dedicated, currently working on Haka Game Park, Msasa, Harare.</p>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <h2>My Skills</h2>
+    <div class="skill">
+      <div class="skill-name"><span>HTML</span><span>90%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="width:90%;"></div></div>
+    </div>
+    <div class="skill">
+      <div class="skill-name"><span>CSS</span><span>85%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="width:85%;"></div></div>
+    </div>
+    <div class="skill">
+      <div class="skill-name"><span>JavaScript</span><span>80%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="width:80%;"></div></div>
+    </div>
+    <div class="skill">
+      <div class="skill-name"><span>Bot Development</span><span>90%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="width:90%;"></div></div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="cards">
+      <div class="card"><h3>WATSON-XD-BOT</h3><p>My main bot project on GitHub.</p></div>
+      <div class="card"><h3>WATSON-XMD-BOT</h3><p>Advanced bot with AI features.</p></div>
+      <div class="card"><h3>Portfolio Site</h3><p>My fully interactive portfolio website.</p></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
 
   <!-- Footer -->
-  <footer>© 2025 WATSON-XD | Powered by Cool Tech ⚡</footer>
+  <footer>
+    &copy; 2025 Watson Fourpence. All Rights Reserved.
+  </footer>
 
+  <!-- Back to Top -->
+  <button id="topBtn"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <!-- JS -->
   <script>
-    function playSound() {
-      const sound = document.getElementById('tapSound');
-      sound.currentTime = 0;
-      sound.play();
+    // Back to Top Button
+    const topBtn = document.getElementById("topBtn");
+    window.onscroll = () => {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) topBtn.style.display = "block";
+      else topBtn.style.display = "none";
+    };
+    topBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Generate Stars
+    const stars = document.querySelector('.stars');
+    for(let i=0;i<100;i++){
+      let star = document.createElement('div');
+      star.classList.add('star');
+      star.style.top=Math.random()*100+'%';
+      star.style.left=Math.random()*100+'%';
+      star.style.width=Math.random()*2+1+'px';
+      star.style.height=star.style.width;
+      star.style.animationDuration=2+Math.random()*3+'s';
+      stars.appendChild(star);
     }
-
-    // Clock
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Cursor glow trail
-    document.addEventListener("mousemove", e => {
-      const dot = document.createElement("div");
-      dot.className = "cursor-dot";
-      dot.style.left = e.pageX + "px";
-      dot.style.top = e.pageY + "px";
-      document.body.appendChild(dot);
-      setTimeout(() => dot.remove(), 1000);
-    });
-
-    // Matrix Rain
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    const letters = "WATSONXD2025";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0,0,0,0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0ff";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 33);
   </script>
 </body>
 </html>
