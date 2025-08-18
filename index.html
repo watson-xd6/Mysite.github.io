@@ -1,39 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WATSON-XD</title>
+  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #000000, #1f1c2c);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: white;
-      position: relative;
-      font-family: 'Orbitron', sans-serif;
-    }
+</head>
+<body>
+  <!-- Matrix Background -->
+  <canvas id="matrix"></canvas>
+  <div id="particles-js"></div>
 
-    /* Neon glowing text */
-    .glow-text {
-      font-size: 4rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff, 0 0 30px #0ff, 0 0 50px #0ff;
-      animation: flicker 3s infinite alternate;
-    }
-    @keyframes flicker {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.7; transform: scale(1.05); }
-    }
+  <!-- Hero Section -->
+  <header>
+    <div class="profile-pic">
+      <img src="assets/profile.png" alt="Watson-XD">
+    </div>
+    <h1 class="glow-text">WATSON-XD</h1>
+    <p class="typing">《WATSON FOURPENCE 2025》</p>
+    <div class="clock" id="clock"></div>
+  </header>
 
-    /* Buttons */
+  <!-- News Ticker -->
+  <div class="news-ticker">
+    <span>🔥 Latest Update: New Bot Version Released! | 🚀 Portfolio Updated | 📢 Join My WhatsApp Channel</span>
+  </div>
+
+  <!-- Project Cards -->
+  <section class="projects">
+    <div class="card">
+      <i class="fa-brands fa-github"></i>
+      <h3>GitHub</h3>
+      <p>Check out my projects & repos</p>
+      <a href="https://github.com/watson-xd3/WATSON-XD-BOT" target="_blank">Visit</a>
+    </div>
+    <div class="card">
+      <i class="fa-brands fa-youtube"></i>
+      <h3>YouTube</h3>
+      <p>Watch tutorials & tech videos</p>
+      <a href="https://youtube.com/@watson-xd3" target="_blank">Subscribe</a>
+    </div>
+    <div class="card">
+      <i class="fa-brands fa-whatsapp"></i>
+      <h3>WhatsApp</h3>
+      <p>Join my community channel</p>
+      <a href="https://whatsapp.com/channel/0029Vb5m3D9A2pL6kvlwSf2S" target="_blank">Join</a>
+    </div>
+  </section>
+
+  <!-- Light/Dark Toggle -->
+  <button id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+
+  <!-- Footer -->
+  <footer>© 2025 WATSON-XD | Powered by Cool Tech ⚡</footer>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+</body>
+</html>
     .buttons {
       margin-top: 40px;
       display: flex;
