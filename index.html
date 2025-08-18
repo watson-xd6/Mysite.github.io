@@ -1,39 +1,64 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Watson Fourpence Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Global Styles */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Orbitron', sans-serif; }
-    body { background: linear-gradient(135deg,#000,#1f1c2c); color:white; overflow-x:hidden; }
-    a { text-decoration:none; color:inherit; }
-
-    /* Hero Section */
-    header { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; position:relative; text-align:center; }
-    header .glow-text { font-size:4rem; color:#0ff; text-shadow:0 0 10px #0ff,0 0 30px #0ff,0 0 50px #0ff; animation:flicker 3s infinite alternate; }
-    @keyframes flicker {0%,100%{opacity:1; transform:scale(1);}50%{opacity:0.7; transform:scale(1.05);}}
-    header .typing { margin-top:20px; font-size:1.2rem; color:#0ff; border-right:2px solid #0ff; white-space:nowrap; overflow:hidden; width:0; animation:typing 6s steps(30,end) infinite alternate, blink .7s step-end infinite;}
-    @keyframes typing { from{width:0;} to{width:25ch;} }
-    @keyframes blink { 50%{border-color:transparent;} }
-
-    /* Floating Orbs & Stars */
-    .stars,.orbs { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; z-index:-1; }
-    .star { position:absolute; width:2px; height:2px; background:white; border-radius:50%; animation:twinkle 5s infinite ease-in-out; }
-    @keyframes twinkle {0%,100%{opacity:0.2;}50%{opacity:1;}}
-    .orb { position:absolute; width:40px; height:40px; background:rgba(0,255,255,0.2); border-radius:50%; filter:blur(20px); animation:floatOrb 10s infinite alternate; }
-    @keyframes floatOrb { from {transform:translateY(0);} to {transform:translateY(-100px);} }
-
-    /* Buttons */
-    .buttons { margin-top:40px; display:flex; flex-direction:column; gap:20px; }
-    .button { padding:15px 30px; font-size:1.1rem; background:#0ff; color:#000; border:none; border-radius:10px; box-shadow:0 0 10px #0ff; display:flex; align-items:center; gap:10px; justify-content:center; position:relative; overflow:hidden; transition:0.2s ease; }
-    .button::after { content:''; position:absolute; top:50%; left:50%; width:200%; height:200%; background:rgba(255,255,255,0.2); transform:translate(-50%,-50%) scale(0); border-radius:50%; transition:transform 0.4s ease; }
-    .button:active::after { transform:translate(-50%,-50%) scale(1); }
-    .button:hover { box-shadow:0 0 20px #00f5ff,0 0 30px #00f5ff; transform:scale(1.05); }
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="background"></div>
+  <header>
+    <img src="assets/profile.jpg" alt="Watson Fourpence" class="profile-img">
+    <h1>Watson Fourpence</h1>
+    <p>21 • Harare, Zimbabwe 🇿🇼</p>
+    <p>Hardworking boy, currently working on Haka Game Park, Msasa, Harare</p>
+    <div class="battery" id="battery">🔋 Battery: --%</div>
+  </header>
+  <section class="links">
+    <a href="https://github.com/watson-xd6" class="animated-link" target="_blank">GitHub</a>
+    <a href="#" class="animated-link" target="_blank">YouTube</a>
+    <a href="#" class="animated-link" target="_blank">WhatsApp</a>
+    <a href="mailto:fourpencewatson7@gmail.com" class="animated-link">Email Me</a>
+  </section>
+  <section class="projects">
+    <h2>My Projects</h2>
+    <div class="project-grid">
+      <div class="project">Project 1 Placeholder</div>
+      <div class="project">Project 2 Placeholder</div>
+      <div class="project">Project 3 Placeholder</div>
+      <div class="project">Project 4 Placeholder</div>
+      <div class="project">Project 5 Placeholder</div>
+      <div class="project">Project 6 Placeholder</div>
+    </div>
+  </section>
+  <section class="skills">
+    <h2>Skills</h2>
+    <div class="skill">
+      <span>HTML</span>
+      <div class="skill-bar" style="--width:90%;"></div>
+    </div>
+    <div class="skill">
+      <span>CSS</span>
+      <div class="skill-bar" style="--width:85%;"></div>
+    </div>
+    <div class="skill">
+      <span>JavaScript</span>
+      <div class="skill-bar" style="--width:80%;"></div>
+    </div>
+    <div class="skill">
+      <span>Game Dev</span>
+      <div class="skill-bar" style="--width:70%;"></div>
+    </div>
+  </section>
+  <footer>
+    <p>© 2025 Watson Fourpence | Portfolio by Watson</p>
+  </footer>
+</body>
+</html>
     /* Sections */
     section { padding:80px 20px; max-width:1200px; margin:0 auto; }
     h2 { font-size:2.5rem; color:#0ff; text-shadow:0 0 5px #0ff; margin-bottom:20px; text-align:center; }
