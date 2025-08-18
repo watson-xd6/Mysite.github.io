@@ -21,27 +21,25 @@
       font-family: 'Orbitron', sans-serif;
     }
 
-    /* 1. Neon glowing text */
+    /* Neon glowing text */
     .glow-text {
       font-size: 4rem;
       color: #0ff;
       text-shadow: 0 0 10px #0ff, 0 0 30px #0ff, 0 0 50px #0ff;
       animation: flicker 3s infinite alternate;
     }
-
     @keyframes flicker {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.7; transform: scale(1.05); }
     }
 
-    /* 2. Buttons */
+    /* Buttons */
     .buttons {
       margin-top: 40px;
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-
     .button {
       padding: 15px 30px;
       font-size: 1.1rem;
@@ -59,7 +57,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .button::after {
       content: '';
       position: absolute;
@@ -72,58 +69,17 @@
       border-radius: 50%;
       transition: transform 0.4s ease;
     }
-
     .button:active::after {
       transform: translate(-50%, -50%) scale(1);
     }
-
     .button:hover {
       box-shadow: 0 0 20px #00f5ff, 0 0 30px #00f5ff;
       transform: scale(1.05);
     }
 
-    audio {
-      display: none;
-    }
+    audio { display: none; }
 
-    /* 3. Floating stars background */
-    .stars {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      overflow: hidden;
-      z-index: -1;
-    }
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      animation: twinkle 5s infinite ease-in-out;
-    }
-    @keyframes twinkle {
-      0%,100% {opacity: 0.2;}
-      50% {opacity: 1;}
-    }
-
-    /* 4. Floating glowing orbs */
-    .orb {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      background: rgba(0, 255, 255, 0.2);
-      border-radius: 50%;
-      filter: blur(20px);
-      animation: floatOrb 10s infinite alternate;
-    }
-    @keyframes floatOrb {
-      from { transform: translateY(0px);}
-      to { transform: translateY(-100px);}
-    }
-
-    /* 5. Hacker typing effect */
+    /* Typing effect */
     .typing {
       margin-top: 20px;
       font-size: 1.2rem;
@@ -142,34 +98,62 @@
       50% { border-color: transparent; }
     }
 
-    /* 6. Scroll bar hidden for clean look */
-    ::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* 7. Footer info */
+    /* Footer */
     footer {
       position: absolute;
       bottom: 10px;
       font-size: 0.9rem;
       color: #aaa;
     }
+
+    /* Digital clock */
+    .clock {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+    /* Cursor glow */
+    .cursor-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #0ff;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.7;
+      filter: blur(3px);
+      animation: fadeOut 1s forwards;
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: scale(2); }
+    }
+
+    /* Matrix rain background */
+    canvas#matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: black;
+    }
   </style>
 </head>
 <body>
-  <!-- 3. Background stars -->
-  <div class="stars"></div>
-  <!-- 4. Floating glowing orbs -->
-  <div class="orb" style="top:20%; left:10%;"></div>
-  <div class="orb" style="top:70%; left:80%; animation-delay:3s;"></div>
+  <!-- Matrix Rain -->
+  <canvas id="matrix"></canvas>
 
-  <!-- 1. Glow text -->
+  <!-- Glow text -->
   <div class="glow-text">WATSON-XD</div>
 
-  <!-- 5. Typing effect -->
+  <!-- Typing effect -->
   <div class="typing">《WATSON FOURPENCE 2025》</div>
   
-  <!-- 2. Buttons -->
+  <!-- Digital Clock -->
+  <div class="clock" id="clock"></div>
+
+  <!-- Buttons -->
   <div class="buttons">
     <a href="https://youtube.com/@watson-xd3" class="button" onclick="playSound()">
       <i class="fa-brands fa-youtube"></i> YouTube Channel
@@ -187,7 +171,7 @@
     <source src="https://www.myinstants.com/media/sounds/button-press.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- 7. Footer -->
+  <!-- Footer -->
   <footer>© 2025 WATSON-XD | Powered by Cool Tech ⚡</footer>
 
   <script>
@@ -197,16 +181,53 @@
       sound.play();
     }
 
-    // Generate stars dynamically (100 stars)
-    const starContainer = document.querySelector('.stars');
-    for(let i=0; i<100; i++){
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.style.top = Math.random() * window.innerHeight + 'px';
-      star.style.left = Math.random() * window.innerWidth + 'px';
-      star.style.animationDuration = (2 + Math.random() * 3) + 's';
-      starContainer.appendChild(star);
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString();
     }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Cursor glow trail
+    document.addEventListener("mousemove", e => {
+      const dot = document.createElement("div");
+      dot.className = "cursor-dot";
+      dot.style.left = e.pageX + "px";
+      dot.style.top = e.pageY + "px";
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 1000);
+    });
+
+    // Matrix Rain
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "WATSONXD2025";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0ff";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
   </script>
 </body>
 </html>
