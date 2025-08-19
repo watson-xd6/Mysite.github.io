@@ -1,237 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Watson Fourpence Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
+    :root{
+      --bg:#071029;           /* deep navy */
+      --panel: rgba(255,255,255,0.03);
+      --text: #E6F0FF;
+      --muted: #9FB4D6;
+      --accent: #00b4d8;      /* calm teal */
+      --accent-warm: #ffb703; /* warm highlight */
+      --glass: rgba(255,255,255,0.04);
+      --radius: 12px;
+    }
+
+    *{box-sizing: border-box}
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      background: #000;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(0,180,216,0.06), transparent 8%),
+                  radial-gradient(900px 400px at 90% 80%, rgba(255,183,3,0.03), transparent 10%),
+                  var(--bg);
       overflow-x: hidden;
       text-align: center;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      min-height:100vh;
     }
 
-    canvas#matrixCanvas {
+    /* subtle animated background canvas */
+    canvas#bgCanvas {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: black;
+      background: transparent;
+      pointer-events: none;
     }
 
     header {
-      padding: 20px;
+      padding: 28px 20px 12px;
       position: relative;
       z-index: 2;
     }
 
     .profile-img {
-      width: 150px;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
       border-radius: 50%;
-      border: 3px solid #0f0;
-      margin-bottom: 10px;
+      border: 4px solid rgba(255,255,255,0.06);
+      box-shadow: 0 6px 24px rgba(3,12,30,0.6);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 6px 0 2px;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      color: var(--text);
+    }
+
+    header p {
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .chip {
+      background: var(--glass);
+      padding:6px 10px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:0.9rem;
+      border:1px solid rgba(255,255,255,0.02);
     }
 
     .battery, #runtime {
       margin: 5px 0;
-      font-size: 1rem;
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 18px auto;
+      padding: 0 20px 60px;
     }
 
     .links {
-      margin: 20px 0;
+      margin: 18px 0;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
     }
 
     .animated-link {
-      margin: 10px;
-      padding: 10px 20px;
-      border: 2px solid #0f0;
-      border-radius: 8px;
-      color: #0f0;
+      margin: 6px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      color: var(--text);
       text-decoration: none;
       display: inline-block;
-      transition: all 0.3s ease;
+      transition: all 220ms ease;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
+      font-weight:600;
+      font-size:0.95rem;
     }
 
     .animated-link:hover {
-      background: #0f0;
-      color: #000;
-      box-shadow: 0 0 15px #0f0;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(3,12,30,0.6);
+      border-color: rgba(0,180,216,0.18);
     }
 
-    .projects, .skills, .contact {
-      margin: 40px auto;
-      max-width: 900px;
-      position: relative;
-      z-index: 2;
+    .panels {
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+      margin-top: 26px;
+    }
+
+    @media(min-width:900px){
+      .panels { grid-template-columns: 1fr 380px; align-items:start; }
+    }
+
+    .card {
+      background: var(--panel);
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 6px 30px rgba(2,8,20,0.45);
+      text-align:left;
     }
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
     }
 
     .project {
-      padding: 20px;
-      border: 2px solid #0f0;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.6);
-      transition: 0.3s;
+      padding: 16px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.02);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .project h3 { margin:0 0 6px; font-size:1.05rem; color:var(--text) }
+    .project p { margin:0 0 10px; color:var(--muted); font-size:0.95rem }
+
+    .project a.animated-link {
+      padding:8px 12px;
+      font-size:0.9rem;
+      background: transparent;
+      border: 1px dashed rgba(255,255,255,0.03);
     }
 
     .project:hover {
-      background: rgba(0, 255, 0, 0.2);
-      box-shadow: 0 0 20px #0f0;
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(2,8,30,0.5);
     }
 
-    .skill {
-      margin: 15px 0;
-      text-align: left;
-    }
+    .skills h2, .projects h2, .contact h2 { margin-top:0; color:var(--text) }
 
-    .skill span {
-      display: block;
-      margin-bottom: 5px;
-    }
-
+    .skill { margin:12px 0; }
+    .skill span { display:block; color:var(--muted); font-size:0.92rem; margin-bottom:8px; }
+    .skill-bar-wrap { background: rgba(255,255,255,0.03); border-radius:8px; height:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.02)}
     .skill-bar {
+      height:100%;
+      border-radius:8px;
+      background: linear-gradient(90deg, var(--accent) 0%, #81d4fa 100%);
       width: var(--width);
-      height: 10px;
-      background: #0f0;
-      border-radius: 5px;
-      box-shadow: 0 0 10px #0f0;
+      box-shadow: inset 0 -4px 8px rgba(0,0,0,0.25);
+      transition: width 600ms ease;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
+    form { display:flex; flex-direction:column; gap:10px; margin-top:14px }
     input, textarea {
-      padding: 10px;
-      border: 2px solid #0f0;
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.8);
-      color: #0f0;
-      font-family: 'Orbitron', sans-serif;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.02);
+      color:var(--text);
+      font-family:inherit;
+      font-size:0.95rem;
     }
-
-    input:focus, textarea:focus {
-      outline: none;
-      box-shadow: 0 0 10px #0f0;
-    }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35) }
+    input:focus, textarea:focus { outline: none; box-shadow: 0 6px 20px rgba(0,180,216,0.08); border-color: rgba(0,180,216,0.12) }
 
     button {
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #0f0;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      font-family: 'Orbitron', sans-serif;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--accent), #008bb3);
+      color: #00121a;
+      font-weight: 700;
+      border:none;
+      cursor:pointer;
+      font-size:0.95rem;
+      transition: transform .14s ease;
     }
-
-    button:hover {
-      background: #000;
-      color: #0f0;
-      border: 2px solid #0f0;
-    }
+    button:hover { transform: translateY(-3px) }
 
     footer {
-      margin: 30px 0;
-      color: #aaa;
+      margin: 34px 0 80px;
+      color: var(--muted);
       font-size: 0.9rem;
       z-index: 2;
       position: relative;
+      text-align:center;
     }
+
+    /* small helpers */
+    .muted { color: var(--muted) }
+    .small { font-size:0.9rem }
   </style>
 </head>
 <body>
-  <canvas id="matrixCanvas"></canvas>
+  <canvas id="bgCanvas"></canvas>
 
   <header>
     <img src="assets/profile.jpg" alt="Watson Fourpence" class="profile-img">
     <h1>Watson Fourpence</h1>
-    <p>21 • Harare, Zimbabwe 🇿🇼</p>
-    <p>Hardworking boy, currently working on Haka Game Park, Msasa, Harare</p>
-    <div class="battery" id="battery">🔋 Battery: --%</div>
-    <div id="runtime">⏳ Runtime: 0h 0m 0s</div>
+    <p class="muted">21 • Harare, Zimbabwe 🇿🇼</p>
+    <p class="muted small">Hardworking boy, currently working on Haka Game Park, Msasa, Harare</p>
+
+    <div class="meta" aria-hidden="false">
+      <div class="chip battery" id="battery">🔋 Battery: --%</div>
+      <div class="chip" id="runtime">⏳ Runtime: 0h 0m 0s</div>
+    </div>
   </header>
 
-  <section class="links">
-    <a href="https://github.com/watson-xd6" class="animated-link" target="_blank">GitHub</a>
-    <a href="#" class="animated-link" target="_blank">YouTube</a>
-    <a href="https://wa.me/263781330745" class="animated-link" target="_blank">WhatsApp</a>
-    <a href="mailto:fourpencewatson7@gmail.com" class="animated-link">Email Me</a>
-  </section>
+  <main class="container">
+    <section class="links" aria-label="Important links">
+      <a href="https://github.com/watson-xd6" class="animated-link" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.youtube.com/@Watson-Official" class="animated-link" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://wa.me/263781330745" class="animated-link" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:fourpencewatson7@gmail.com" class="animated-link">Email Me</a>
+    </section>
 
-  <section class="projects">
-    <h2>My Projects</h2>
-    <div class="project-grid">
-      <div class="project">
-        <h3>WATSON-XD-BOT</h3>
-        <p>A WhatsApp Bot with powerful features built by me.</p>
-        <a href="https://github.com/watson-xd6/WATSON-XD-BOT" class="animated-link" target="_blank">View on GitHub</a>
+    <div class="panels">
+      <div class="card">
+        <section class="projects">
+          <h2>My Projects</h2>
+          <div class="project-grid" aria-live="polite">
+            <div class="project">
+              <h3>WATSON-XD-BOT</h3>
+              <p>A WhatsApp Bot with powerful features built by me.</p>
+              <a href="https://github.com/watson-xd6/WATSON-XD-BOT" class="animated-link" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+
+            <div class="project">
+              <h3>WATSON-XMD-BOT</h3>
+              <p>Companion repo with extras and plugins.</p>
+              <a href="https://github.com/watson-xd3/WATSON-XMD-BOT" class="animated-link" target="_blank" rel="noopener">View repo</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="skills" style="margin-top:26px;">
+          <h2>Skills</h2>
+          <div class="skill">
+            <span>HTML</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="--width:90%; width:90%"></div></div>
+          </div>
+          <div class="skill">
+            <span>CSS</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="--width:85%; width:85%"></div></div>
+          </div>
+          <div class="skill">
+            <span>JavaScript</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="--width:80%; width:80%"></div></div>
+          </div>
+          <div class="skill">
+            <span>Game Dev</span>
+            <div class="skill-bar-wrap"><div class="skill-bar" style="--width:70%; width:70%"></div></div>
+          </div>
+        </section>
       </div>
-    </div>
-  </section>
 
-  <section class="skills">
-    <h2>Skills</h2>
-    <div class="skill">
-      <span>HTML</span>
-      <div class="skill-bar" style="--width:90%;"></div>
+      <aside class="card">
+        <section class="contact">
+          <h2>Contact Me</h2>
+          <form action="mailto:fourpencewatson7@gmail.com" method="POST" enctype="text/plain">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+          <p style="margin-top:12px" class="small muted">Or message me on <a href="https://wa.me/263781330745" target="_blank" rel="noopener" class="animated-link">WhatsApp</a></p>
+        </section>
+      </aside>
     </div>
-    <div class="skill">
-      <span>CSS</span>
-      <div class="skill-bar" style="--width:85%;"></div>
-    </div>
-    <div class="skill">
-      <span>JavaScript</span>
-      <div class="skill-bar" style="--width:80%;"></div>
-    </div>
-    <div class="skill">
-      <span>Game Dev</span>
-      <div class="skill-bar" style="--width:70%;"></div>
-    </div>
-  </section>
-
-  <section class="contact">
-    <h2>Contact Me</h2>
-    <form action="mailto:fourpencewatson7@gmail.com" method="POST" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <p>Or message me on <a href="https://wa.me/263781330745" target="_blank" class="animated-link">WhatsApp</a></p>
-  </section>
+  </main>
 
   <footer>
     <p>© 2025 Watson Fourpence | Developer. All Rights Reserved</p>
   </footer>
 
   <script>
-    // Battery Display
-    navigator.getBattery().then(function(battery) {
-      function updateBatteryStatus() {
-        document.getElementById('battery').textContent =
-          "🔋 Battery: " + Math.round(battery.level * 100) + "%";
-      }
-      updateBatteryStatus();
-      battery.addEventListener('levelchange', updateBatteryStatus);
-    });
+    // Battery Display with graceful fallback
+    const batteryEl = document.getElementById('battery');
+    if (navigator.getBattery) {
+      navigator.getBattery().then(function(battery) {
+        function updateBatteryStatus() {
+          batteryEl.textContent = "🔋 Battery: " + Math.round(battery.level * 100) + "%";
+        }
+        updateBatteryStatus();
+        battery.addEventListener('levelchange', updateBatteryStatus);
+        battery.addEventListener('chargingchange', updateBatteryStatus);
+      }).catch(()=> batteryEl.textContent = "🔋 Battery: n/a");
+    } else {
+      batteryEl.textContent = "🔋 Battery: n/a";
+    }
 
     // Runtime Display
     let seconds = 0;
@@ -244,35 +342,89 @@
         `⏳ Runtime: ${hrs}h ${mins}m ${secs}s`;
     }, 1000);
 
-    // Matrix Effect
-    const canvas = document.getElementById("matrixCanvas");
-    const ctx = canvas.getContext("2d");
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    const word = "WATSONXD";
-    const fontSize = 18;
-    const columns = canvas.width / (fontSize * word.length);
-    const drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.font = fontSize + "px monospace";
-      for (let i = 0; i < drops.length; i++) {
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = "#0f0";
-        ctx.fillStyle = "#00ff00";
-        ctx.fillText(word, i * fontSize * word.length, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
-          drops[i] = 0;
-        drops[i]++;
+    // Subtle moving background particles (calm teal + warm spark)
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = innerWidth;
+    let h = canvas.height = innerHeight;
+
+    const particles = [];
+    const COUNT = Math.floor((w*h) / 90000); // scale with screen area
+    function rand(min, max){ return Math.random()*(max-min)+min; }
+
+    function initParticles(){
+      particles.length = 0;
+      for(let i=0;i<COUNT;i++){
+        particles.push({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          vx: rand(-0.15,0.15),
+          vy: rand(0.15,0.6),
+          size: rand(0.6,2.2),
+          life: rand(120,420),
+          colorSeed: Math.random()
+        });
       }
     }
-    setInterval(draw, 50);
-    window.addEventListener("resize", () => {
-      canvas.height = window.innerHeight;
-      canvas.width = window.innerWidth;
+
+    function drawBG(){
+      ctx.clearRect(0,0,w,h);
+      // very subtle vignette layering
+      for(let p of particles){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+        if (p.y > h + 10 || p.x < -10 || p.x > w+10 || p.life < 0){
+          p.x = Math.random()*w;
+          p.y = -10;
+          p.vx = rand(-0.15,0.15);
+          p.vy = rand(0.15,0.6);
+          p.size = rand(0.6,2.2);
+          p.life = rand(120,420);
+        }
+        const alpha = Math.max(0.06, Math.min(0.35, p.size/2 * (p.life/420)));
+        const teal = `rgba(0,180,216,${alpha * (1 - p.colorSeed*0.5)})`;
+        const warm = `rgba(255,183,3,${alpha * (0.15 + p.colorSeed*0.25)})`;
+
+        // soft glow
+        ctx.beginPath();
+        ctx.fillStyle = teal;
+        ctx.arc(p.x, p.y, p.size*1.8, 0, Math.PI*2);
+        ctx.fill();
+
+        // tiny warm spark occasionally
+        if (p.colorSeed > 0.86) {
+          ctx.beginPath();
+          ctx.fillStyle = warm;
+          ctx.arc(p.x + p.size*2.5, p.y - p.size*1.2, p.size*0.9, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+    }
+
+    let raf;
+    function loop(){
+      drawBG();
+      raf = requestAnimationFrame(loop);
+    }
+
+    function resize(){
+      cancelAnimationFrame(raf);
+      w = canvas.width = innerWidth;
+      h = canvas.height = innerHeight;
+      // recompute count and reset
+      initParticles();
+      loop();
+    }
+    window.addEventListener('resize', resize);
+    initParticles();
+    loop();
+
+    // Accessibility: lightweight keyboard focus highlight
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === "Tab") document.body.classList.add('keyboard-nav');
     });
+
   </script>
 </body>
 </html>
