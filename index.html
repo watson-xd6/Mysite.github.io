@@ -1,39 +1,61 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Watson Fourpence Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <canvas id="bgCanvas"></canvas>
-
+  <div class="background"></div>
   <header>
     <img src="assets/profile.jpg" alt="Watson Fourpence" class="profile-img">
     <h1>Watson Fourpence</h1>
-    <p class="muted">21 • Harare, Zimbabwe 🇿🇼</p>
-    <p class="muted small">Hardworking boy, currently working on Haka Game Park, Msasa, Harare</p>
-
-    <div class="meta">
-      <div class="chip battery" id="battery">🔋 Battery: --%</div>
-      <div class="chip" id="runtime">⏳ Runtime: 0h 0m 0s</div>
-    </div>
+    <p>21 • Harare, Zimbabwe 🇿🇼</p>
+    <p>Hardworking boy, currently working on Haka Game Park, Msasa, Harare</p>
+    <div class="battery" id="battery">🔋 Battery: --%</div>
   </header>
-
-  <main class="container">
-    <section class="links">
-      <a href="https://github.com/watson-xd6" class="animated-link" target="_blank">GitHub</a>
-      <a href="https://www.youtube.com/@Watson-Official" class="animated-link" target="_blank">YouTube</a>
-      <a href="https://wa.me/263789622747" class="animated-link" target="_blank">WhatsApp</a>
-    </section>
-  </main>
-
+  <section class="links">
+    <a href="https://github.com/watson-xd6" class="animated-link" target="_blank">GitHub</a>
+    <a href="#" class="animated-link" target="_blank">YouTube</a>
+    <a href="#" class="animated-link" target="_blank">WhatsApp</a>
+    <a href="mailto:fourpencewatson7@gmail.com" class="animated-link">Email Me</a>
+  </section>
+  <section class="projects">
+    <h2>My Projects</h2>
+    <div class="project-grid">
+      <div class="project">Project 1 Placeholder</div>
+      <div class="project">Project 2 Placeholder</div>
+      <div class="project">Project 3 Placeholder</div>
+      <div class="project">Project 4 Placeholder</div>
+      <div class="project">Project 5 Placeholder</div>
+      <div class="project">Project 6 Placeholder</div>
+    </div>
+  </section>
+  <section class="skills">
+    <h2>Skills</h2>
+    <div class="skill">
+      <span>HTML</span>
+      <div class="skill-bar" style="--width:90%;"></div>
+    </div>
+    <div class="skill">
+      <span>CSS</span>
+      <div class="skill-bar" style="--width:85%;"></div>
+    </div>
+    <div class="skill">
+      <span>JavaScript</span>
+      <div class="skill-bar" style="--width:80%;"></div>
+    </div>
+    <div class="skill">
+      <span>Game Dev</span>
+      <div class="skill-bar" style="--width:70%;"></div>
+    </div>
+  </section>
   <footer>
-    © 2025 Watson Fourpence
+    <p>© 2025 Watson Fourpence |Developer. All Rights Reserved</p>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
