@@ -1,40 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Watson Fourpence Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1, h2 {
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+      color: #0ff;
+    }
+
+    p, a, span {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    header, section, footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    header img.profile-img {
+      width: 120px;
+      border-radius: 50%;
+      border: 3px solid #0ff;
+      margin-top: 20px;
+    }
+
+    .animated-link {
+      font-weight: 500;
+      text-decoration: none;
+      padding: 10px 20px;
+      color: #0ff;
+      border: 2px solid #0ff;
+      border-radius: 8px;
+      margin: 5px;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .animated-link:hover {
+      background: #0ff;
+      color: #000;
+      box-shadow: 0 0 15px #0ff, 0 0 30px #00f5ff;
+      transform: scale(1.05);
+    }
+
+    .runtime, .battery {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+    .project a {
+      color: #0ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .project a:hover {
+      text-decoration: underline;
+      color: #00f5ff;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #0ff;
+    }
+
+    /* Matrix Background Canvas */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
-  <div class="background"></div>
+  <!-- Matrix Canvas -->
+  <canvas id="matrixCanvas"></canvas>
+
   <header>
     <img src="assets/profile.jpg" alt="Watson Fourpence" class="profile-img">
     <h1>Watson Fourpence</h1>
     <p>21 • Harare, Zimbabwe 🇿🇼</p>
     <p>Hardworking boy, currently working on Haka Game Park, Msasa, Harare</p>
     <div class="battery" id="battery">🔋 Battery: --%</div>
+    <div class="runtime" id="runtime">⏳ Runtime: 0s</div>
   </header>
+
   <section class="links">
     <a href="https://github.com/watson-xd6" class="animated-link" target="_blank">GitHub</a>
     <a href="#" class="animated-link" target="_blank">YouTube</a>
     <a href="#" class="animated-link" target="_blank">WhatsApp</a>
     <a href="mailto:fourpencewatson7@gmail.com" class="animated-link">Email Me</a>
   </section>
+
   <section class="projects">
-    <h2>My Projects</h2>
+    <h2>My Project</h2>
     <div class="project-grid">
-      <div class="project">Project 1 Placeholder</div>
-      <div class="project">Project 2 Placeholder</div>
-      <div class="project">Project 3 Placeholder</div>
-      <div class="project">Project 4 Placeholder</div>
-      <div class="project">Project 5 Placeholder</div>
-      <div class="project">Project 6 Placeholder</div>
+      <div class="project">
+        <a href="https://github.com/watson-xd6/WATSON-XD-BOT" target="_blank">🚀 WATSON-XD-BOT</a>
+      </div>
     </div>
   </section>
+
   <section class="skills">
     <h2>Skills</h2>
     <div class="skill">
@@ -54,140 +148,72 @@
       <div class="skill-bar" style="--width:70%;"></div>
     </div>
   </section>
+
   <footer>
-    <p>© 2025 Watson Fourpence | Portfolio by Watson</p>
-  </footer>
-</body>
-</html>
-    /* Sections */
-    section { padding:80px 20px; max-width:1200px; margin:0 auto; }
-    h2 { font-size:2.5rem; color:#0ff; text-shadow:0 0 5px #0ff; margin-bottom:20px; text-align:center; }
-    p { text-align:center; font-size:1.1rem; margin-bottom:20px; }
-    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-    .card { background:rgba(0,255,255,0.1); padding:20px; border-radius:15px; box-shadow:0 0 10px #0ff; transition:0.3s; text-align:center; }
-    .card:hover { transform:scale(1.05); box-shadow:0 0 20px #00f5ff; }
-
-    /* Skill Bars */
-    .skill { margin-bottom:15px; }
-    .skill-name { display:flex; justify-content:space-between; margin-bottom:5px; }
-    .skill-bar { width:100%; height:15px; background:#222; border-radius:10px; overflow:hidden; }
-    .skill-fill { height:100%; width:0; background:#0ff; border-radius:10px; transition:1s; }
-
-    /* Contact Form */
-    .contact-form { display:flex; flex-direction:column; gap:15px; max-width:600px; margin:0 auto; }
-    .contact-form input, .contact-form textarea { padding:15px; border-radius:10px; border:none; background:#111; color:white; resize:none; }
-    .contact-form button { padding:15px; border:none; border-radius:10px; background:#0ff; color:#000; cursor:pointer; transition:0.2s; }
-    .contact-form button:hover { transform:scale(1.05); box-shadow:0 0 20px #00f5ff; }
-
-    /* Footer */
-    footer { text-align:center; padding:20px 0; font-size:0.9rem; color:#aaa; }
-
-    /* Back to Top */
-    #topBtn { position:fixed; bottom:30px; right:30px; background:#0ff; color:#000; border:none; border-radius:50%; width:50px; height:50px; font-size:1.5rem; cursor:pointer; display:none; transition:0.3s; }
-    #topBtn:hover { transform:scale(1.1); box-shadow:0 0 20px #00f5ff; }
-
-    /* Responsive */
-    @media(max-width:768px){ .cards { grid-template-columns:1fr; } header .glow-text { font-size:3rem; } }
-  </style>
-</head>
-<body>
-
-  <!-- Hero Section -->
-  <header>
-    <div class="glow-text">Watson Fourpence</div>
-    <div class="typing">Hardworking boy | 21 | Harare, Zimbabwe 🇿🇼</div>
-    <div class="buttons">
-      <a href="https://youtube.com/@watson-xd3" class="button"><i class="fa-brands fa-youtube"></i> YouTube</a>
-      <a href="https://wa.me/263789622747" class="button"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-      <a href="mailto:fourpencewatson7@gmail.com" class="button"><i class="fa-solid fa-envelope"></i> Email Me</a>
-    </div>
-  </header>
-
-  <!-- Floating Stars & Orbs -->
-  <div class="stars"></div>
-  <div class="orbs">
-    <div class="orb" style="top:20%; left:10%;"></div>
-    <div class="orb" style="top:70%; left:80%; animation-delay:3s;"></div>
-  </div>
-
-  <!-- About Me -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I'm Watson Fourpence, 21 years old from Harare, Zimbabwe. Hardworking and dedicated, currently working on Haka Game Park, Msasa, Harare.</p>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills">
-    <h2>My Skills</h2>
-    <div class="skill">
-      <div class="skill-name"><span>HTML</span><span>90%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:90%;"></div></div>
-    </div>
-    <div class="skill">
-      <div class="skill-name"><span>CSS</span><span>85%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:85%;"></div></div>
-    </div>
-    <div class="skill">
-      <div class="skill-name"><span>JavaScript</span><span>80%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:80%;"></div></div>
-    </div>
-    <div class="skill">
-      <div class="skill-name"><span>Bot Development</span><span>90%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:90%;"></div></div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="cards">
-      <div class="card"><h3>WATSON-XD-BOT</h3><p>My main bot project on GitHub.</p></div>
-      <div class="card"><h3>WATSON-XMD-BOT</h3><p>Advanced bot with AI features.</p></div>
-      <div class="card"><h3>Portfolio Site</h3><p>My fully interactive portfolio website.</p></div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <form class="contact-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Watson Fourpence. All Rights Reserved.
+    <p>© 2025 Watson Fourpence | Developer. All Rights Reserved</p>
   </footer>
 
-  <!-- Back to Top -->
-  <button id="topBtn"><i class="fa-solid fa-arrow-up"></i></button>
-
-  <!-- JS -->
   <script>
-    // Back to Top Button
-    const topBtn = document.getElementById("topBtn");
-    window.onscroll = () => {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) topBtn.style.display = "block";
-      else topBtn.style.display = "none";
-    };
-    topBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Battery Display
+    navigator.getBattery().then(function(battery) {
+      function updateBatteryStatus() {
+        document.getElementById('battery').textContent =
+          "🔋 Battery: " + Math.round(battery.level * 100) + "%";
+      }
+      updateBatteryStatus();
+      battery.addEventListener('levelchange', updateBatteryStatus);
+    });
 
-    // Generate Stars
-    const stars = document.querySelector('.stars');
-    for(let i=0;i<100;i++){
-      let star = document.createElement('div');
-      star.classList.add('star');
-      star.style.top=Math.random()*100+'%';
-      star.style.left=Math.random()*100+'%';
-      star.style.width=Math.random()*2+1+'px';
-      star.style.height=star.style.width;
-      star.style.animationDuration=2+Math.random()*3+'s';
-      stars.appendChild(star);
+    // Runtime Display
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      let hrs = Math.floor(seconds / 3600);
+      let mins = Math.floor((seconds % 3600) / 60);
+      let secs = seconds % 60;
+      document.getElementById('runtime').textContent =
+        `⏳ Runtime: ${hrs}h ${mins}m ${secs}s`;
+    }, 1000);
+
+    // Matrix Effect
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "watsonxd ".split("");
+
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+
+    const drops = [];
+    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+          drops[i] = 0;
+
+        drops[i]++;
+      }
     }
+
+    setInterval(draw, 40);
+
+    window.addEventListener("resize", () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    });
   </script>
 </body>
 </html>
